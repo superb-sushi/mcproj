@@ -29,10 +29,7 @@ For each run:
 
 
 For each day:
-1. Day increment occurs after **10** lightning strikes
-2. Damaged Assets require corresponding "Repair Time" days to be restored (assuming they are not striked again) -> damaged components have damage threshold = 0
-
-If all assets are **destroyed**, end simulation.
+1. Damaged Assets require corresponding "Repair Time" days to be restored (assuming they are not striked again) -> damaged components have damage threshold = 0
 
 # Objective
-To extract optimal layout of town for minimal damage given thunderstorm
+To extract optimal layout of town for minimal damage given thunderstorm that lasts for 5 days
