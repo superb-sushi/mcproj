@@ -3,9 +3,9 @@ Estimating lightning strikes across a town, & optimising town layout to minimise
 
 **Critical Town Assets**
 - Barn (B)
-- Cotton Field (C)
+- Hospital (H)
 - Apartment (A)
-- Grocery Store (G)
+- Field (F)
 
 Each **Asset** has:
 1. Multiple contiguous (x) and (y) coordinates (indicating location of asset)
