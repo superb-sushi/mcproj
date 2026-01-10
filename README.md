@@ -1,5 +1,5 @@
 # Monte Carlo Lightning Strike Model
-Estimating lightning strikes across a town, & optimising town layout to avoid confetti waste & minimise interference with town member lives
+Estimating lightning strikes across a town, & optimising town layout to minimise damage to town assets.
 
 **Critical Town Assets**
 - Barn (B)
