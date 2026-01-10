@@ -8,13 +8,13 @@ Estimating lightning strikes across a town, & optimising town layout to minimise
 - Field (F)
 
 Each **Asset** has:
-1. Multiple contiguous (x) and (y) coordinates (indicating location of asset)
+1. X and Y coordinates (indicating location of asset)
 2. Damage Threshold (1-5)
 3. Repair Time (from lightning damage) (1-4)
 
 Each **Lightning Strike** (LS) has:
-1. Direct Strike Radius (1-2)
-2. Indirect Strike Radius (1-3)
+1. Direct Strike Radius (1)
+2. Indirect Strike Radius (1-2)
 3. Strength of Lightning Strike (1-4)
 
 In order for an **Asset** to be damaged:
@@ -29,7 +29,9 @@ For each run:
 
 
 For each day:
-1. Damaged Assets require corresponding "Repair Time" days to be restored (assuming they are not striked again) -> damaged components have damage threshold = 0
+1. Damaged Assets require corresponding "Repair Time" days to be restored
+2. If Damaged Assets are striked again, their repair time restarts from 0 (assume destroyed again!)
+3. 
 
 # Objective
 To extract optimal layout of town for minimal damage given thunderstorm that lasts for 5 days
