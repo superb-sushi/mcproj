@@ -34,16 +34,43 @@ For each day:
 # Objective
 To extract optimal layout of town for minimal damage given thunderstorm.
 
-# Data Collection
-### Database Schema
-1. **ExperimentParams**(eid, town_size, exp_daily_lightning, max_days)
-2. **Samples**(id, eid, survived, total_days, survival_day, total_assets, num_of_destroyed)
-3. **Assets**(sid, atype, a_row, a_col, destroyed)
-4. **LightningStrikes**(sid, day, num_of_strikes)
+# Project Timeline
+### Simulation Building
+**First Iteration**
+Ideation and Construction of simple model to simulate thunderstorm over a town.
+- `Town` and `Asset` Classes created
+- `generate_lightning_strikes(town_size, expected_daily_lightning_stikes, no_of_days)` used to generate striking coordinates for each lightning strike for each day
+- `lightning_simulation_sample(town_size, expected_daily_lightning_stikes, no_of_days)` runs a single simulation of a thunderstorm on a new instance of a Town of size `town_size`, that lasts for `no_of_days` days
+- `run_simulations(num_simulations, town_size, expected_daily_lightning_stikes, no_of_days)` notes down the experiment parameters (`eid, town_size, expected_daily_lightning_strikes, no_of_days`), and performs `num_simulations` number of independent simulations based on the given parameters, saving all relevant data into a local database
 
-- `ExperimentParams` notes down the parameters of a given set of Samples (i.e. town size, expected number of lightning strikes per day, and the max days the lightning storm goes on for)
-- `Samples` represents the results collected from one sample. One sample involves putting the town (of size `town_size`) under a simulated thunderstorm the goes on for `max_days` days, where each day, the number of lightning strikes follows a probability distribution of Poisson(`exp_daily_lightning`).
+### Data Collection
+**First Iteration**
+**Database Schema**
+1. **ExperimentParams**(eid, town_size, exp_daily_lightning, max_days)
+  - notes down the parameters of a given set of Samples (i.e. town size, expected number of lightning strikes per day, and the max days the lightning storm goes on for)
+2. **Samples**(id, eid, survived, total_days, survival_day, total_assets, num_of_destroyed)
+  - represents the results collected from one sample. One sample involves putting the town (of size `town_size`) under a simulated thunderstorm the goes on for `max_days` days, where each day, the number of lightning strikes follows a probability distribution of Poisson(`exp_daily_lightning`)
   - Striking coordinates of lightning strikes follow a uniform distribution (town is assumed to be level)
   - Each sample consists of 2 instances of ALL asset types (total 8 different buildings), located in fixed and constant positions across ALL samples
-- `Assets` contain information about the various assets in each sample, including type, location, and if they were destroyed (NOT DAMAGED) at the end of each run.
-- `LightningStrikes` contains information on the number of lightning strikes in a certain day for a given sample
+3. **Assets**(sid, atype, a_row, a_col, destroyed)
+  - contains information about the various assets in each sample, including type, location, and if they were destroyed (NOT DAMAGED) at the end of each run.
+4. **LightningStrikes**(sid, day, num_of_strikes)
+  - contains information on the number of lightning strikes in a certain day for a given sample
+With every run of `run_simluations()`,
+- 1 `ExperimentParams` tuple is added (if it did not already exists)
+- 1 `Samples` tuple is added
+- n `Assets` tuples are added (depends on the number of assets in that town for each sample run - for now it is fixed at `8`)
+- m `LightningStrikes` tuples are added (depends on the number of lightning strikes generated each day + the total number of days for each sample run)
+
+### Data Analysis
+**First Iteration**
+Analysed various metrics based on a **single, fixed** layout of the town. The metrics include:
+- Survival rate of the town across all samples
+- Probability distribution of destruction of the town across the days of the thunderstorm
+- Which Assets are most easily left destroyed at the end of each thunderstorm
+
+### Refining the Simulation
+**First Iteration**
+Performed API calls to Data Gov SG's lightning strikes database to:
+1. Observe if Lightning Strikes (Cloud-to-Ground) do indeed follow a Poisson Distribution for each day
+2. Obtain a proper, realistic lambda value (expected number of lightning strikes each day)
