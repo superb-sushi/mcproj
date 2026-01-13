@@ -36,6 +36,7 @@ def create_tables():
             atype VARCHAR(1) NOT NULL,
             a_row INTEGER NOT NULL,
             a_col INTEGER NOT NULL,
+            importance INTEGER NOT NULL,
             destroyed BOOLEAN NOT NULL,
             PRIMARY KEY (sid, atype, a_row, a_col)
         );
@@ -107,13 +108,13 @@ def add_sample(eid, survived, total_days, survival_day, total_assets, num_of_des
     sample_id = cur.fetchone()[0]
     return sample_id
 
-def add_asset(sample_id, atype, a_row, a_col, destroyed):
+def add_asset(sample_id, atype, a_row, a_col, importance, destroyed):
     cur.execute(
         '''
-        INSERT INTO Assets (sid, atype, a_row, a_col, destroyed)
-        VALUES (%s, %s, %s, %s, %s);
+        INSERT INTO Assets (sid, atype, a_row, a_col, importance, destroyed)
+        VALUES (%s, %s, %s, %s, %s, %s);
         ''',
-        (sample_id, atype, a_row, a_col, destroyed)
+        (sample_id, atype, a_row, a_col, importance, destroyed)
     )  
     conn.commit()
 
@@ -126,3 +127,47 @@ def add_lightning_strike(sample_id, day, num_of_strikes):
         (sample_id, day, num_of_strikes)
     )
     conn.commit()
+
+def create_real_lightning_data_table():
+    cur.execute(
+        '''
+        CREATE TABLE LightningData (
+            lid INTEGER GENERATED ALWAYS AS IDENTITY,
+            datetime DATE NOT NULL,
+            l_type VARCHAR(1) NOT NULL,
+            latitude DECIMAL NOT NULL,
+            longitude DECIMAL NOT NULL
+        )
+        '''
+    )
+    conn.commit()
+    print("LightningData table created successfully")
+
+def add_real_lightning_data(date, type, latitude, longitude):
+    cur.execute(
+        '''
+        SELECT lid 
+        FROM LightningData 
+        WHERE datetime = %s 
+          AND l_type = %s 
+          AND latitude = %s
+          AND longitude = %s;
+        ''',
+        (date, type, latitude, longitude)
+    )
+    
+    existing = cur.fetchone()
+    
+    if existing:
+        print("Real lightning data record already exists", date, type, latitude, longitude)
+        return
+    
+    cur.execute(
+        '''
+        INSERT INTO LightningData (datetime, l_type, latitude, longitude)
+        VALUES (%s, %s, %s, %s);
+        ''',
+        (date, type, latitude, longitude)
+    )
+    conn.commit()
+    print("Successfully added real lightning data record", date, type, latitude, longitude)

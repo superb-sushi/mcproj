@@ -33,7 +33,7 @@ class Town:
         return True
 
 class Asset:
-    def __init__(self, row=0, col=0, asset_type=0, damage_threshold=0, repair_time=0, is_empty=False):
+    def __init__(self, row=0, col=0, asset_type=0, damage_threshold=0, repair_time=0, importance=0, is_empty=False, ):
         self.row = row
         self.col = col
         self.asset_type = asset_type
@@ -42,6 +42,7 @@ class Asset:
         self.damage_taken = 0
         self.repair_counter = 0
         self.is_empty = is_empty
+        self.importance = importance
     
     def take_damage(self, damage):
         if self.is_destroyed():
@@ -66,21 +67,21 @@ class Asset:
     def display(self):
         return "O" if self.is_empty else (self.asset_type if not self.is_destroyed() else "X")
 
-template_assets = {"B":[2, 2], "A":[3, 3], "H":[5, 4], "F":[1, 1]} # Assets -> Building Type: [Damage Threshold, Repair Time]
+template_assets = {"B":[2, 2, 3], "A":[3, 3, 7], "H":[5, 4, 10], "F":[1, 1, 1]} # Assets -> Building Type: [Damage Threshold, Repair Time, Importance]
 
 assets = []
-assets.append(Asset(4, 2, "B", template_assets["B"][0], template_assets["B"][1]))  # Barn
-assets.append(Asset(0, 4, "A", template_assets["A"][0], template_assets["A"][1]))  # Apartment
-assets.append(Asset(4, 1, "H", template_assets["H"][0], template_assets["H"][1]))  # Hospital
-assets.append(Asset(4, 4, "F", template_assets["F"][0], template_assets["F"][1]))  # Field
+assets.append(Asset(4, 2, "B", template_assets["B"][0], template_assets["B"][1], template_assets["B"][2]))  # Barn
+assets.append(Asset(0, 4, "A", template_assets["A"][0], template_assets["A"][1], template_assets["A"][2]))  # Apartment
+assets.append(Asset(4, 1, "H", template_assets["H"][0], template_assets["H"][1], template_assets["H"][2]))  # Hospital
+assets.append(Asset(4, 4, "F", template_assets["F"][0], template_assets["F"][1], template_assets["F"][2]))  # Field
 
-assets.append(Asset(2, 3, "B", template_assets["B"][0], template_assets["B"][1]))  # Another Barn
-assets.append(Asset(4, 0, "A", template_assets["A"][0], template_assets["A"][1]))  # Another Apartment
-assets.append(Asset(3, 2, "H", template_assets["H"][0], template_assets["H"][1]))  # Another Hospital
-assets.append(Asset(2, 1, "F", template_assets["F"][0], template_assets["F"][1]))  # Another Field
+assets.append(Asset(2, 3, "B", template_assets["B"][0], template_assets["B"][1], template_assets["B"][2]))  # Another Barn
+assets.append(Asset(4, 0, "A", template_assets["A"][0], template_assets["A"][1], template_assets["A"][2]))  # Another Apartment
+assets.append(Asset(3, 2, "H", template_assets["H"][0], template_assets["H"][1], template_assets["H"][2]))  # Another Hospital
+assets.append(Asset(2, 1, "F", template_assets["F"][0], template_assets["F"][1], template_assets["F"][2]))  # Another Field
 
 
-def generate_lightning_strikes(town_size, expected_daily_lightning_stikes, no_of_days): # Generates [[[x_coords], [y_coords]], [x1_coords], [y1_coords]], ...] for each day
+def generate_lightning_strikes(town_size, expected_daily_lightning_stikes, no_of_days): # Generates [[[x_coords], [y_coords]], [x1_coords], [y1_coords]], ...] for each day x_i
     # Poisson distribution for number of strikes per day
     strikes = []
     num_strikes = np.random.poisson(expected_daily_lightning_stikes, no_of_days) # Average 'expected_daily_lightning_strikes' strikes per day for X days
@@ -122,7 +123,7 @@ def lightning_simulation_sample(town_size, expected_daily_lightning_stikes, no_o
             survive = 0
             break
     # Return [survival status, total num of days, day town survived till, total assets, num of destroyed assets, all assets (type, row, col, destroyed?), daily lightning strike counts]
-    return [survive, len(strikes), survival_day, len(assets), sum(1 for asset in assets if asset.is_destroyed()), [[asset.asset_type, asset.row, asset.col, asset.is_destroyed()] for asset in assets], [len(strikes_coords[0]) for strikes_coords in strikes]]
+    return [survive, len(strikes), survival_day, len(assets), sum(1 for asset in assets if asset.is_destroyed()), [[asset.asset_type, asset.row, asset.col, asset.importance, asset.is_destroyed()] for asset in assets], [len(strikes_coords[0]) for strikes_coords in strikes]]
 
 
 def run_simulations(num_simulations, town_size, expected_daily_lightning_stikes, no_of_days):
@@ -132,10 +133,10 @@ def run_simulations(num_simulations, town_size, expected_daily_lightning_stikes,
         result = lightning_simulation_sample(town_size, expected_daily_lightning_stikes, no_of_days)
         sample_id = add_sample(experiment_id, result[0] == 1, result[1], result[2], result[3], result[4])
         for asset_info in result[5]:
-            add_asset(sample_id, asset_info[0], asset_info[1], asset_info[2], asset_info[3])
+            add_asset(sample_id, asset_info[0], asset_info[1], asset_info[2], asset_info[3], asset_info[4])
         for day, num_strikes in enumerate(result[6]):
             add_lightning_strike(sample_id, day + 1, num_strikes)
         print(f"Simulation {i + 1} results recorded in database.")
 
 reset_db()
-run_simulations(250, 5, 20, 5)
+run_simulations(1000, 5, 15, 30)

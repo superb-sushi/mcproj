@@ -11,6 +11,7 @@ Each **Asset** has:
 1. X and Y coordinates (indicating location of asset)
 2. Damage Threshold (1-5)
 3. Repair Time (from lightning damage) (1-4)
+4. Level of Importance (1-10)
 
 Each **Lightning Strike** (LS) has:
 1. Direct Strike Radius (1)
@@ -68,9 +69,11 @@ Analysed various metrics based on a **single, fixed** layout of the town. The me
 - Survival rate of the town across all samples
 - Probability distribution of destruction of the town across the days of the thunderstorm
 - Which Assets are most easily left destroyed at the end of each thunderstorm
+- Probability Distribution of the loss of assets (weighed by summation of the `importance` of each asset) across the days of the thunderstorm
 
 ### Refining the Simulation
 **First Iteration**
 Performed API calls to Data Gov SG's lightning strikes database to:
 1. Observe if Lightning Strikes (Cloud-to-Ground) do indeed follow a Poisson Distribution for each day
+2. Observe if coordinates of Lightning Strikes do indeed follow a Uniform Distribution
 2. Obtain a proper, realistic lambda value (expected number of lightning strikes each day)
