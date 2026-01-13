@@ -34,7 +34,7 @@ For each day:
 # Objective
 To extract optimal layout of town for minimal damage given thunderstorm.
 
-# Project Timeline
+# Project Aspects
 ### Simulation Building
 **First Iteration**
 Ideation and Construction of simple model to simulate thunderstorm over a town.
