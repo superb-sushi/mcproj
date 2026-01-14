@@ -171,3 +171,89 @@ def add_real_lightning_data(date, type, latitude, longitude):
     )
     conn.commit()
     print("Successfully added real lightning data record", date, type, latitude, longitude)
+
+def ground_strike_count_by_date():
+    cur.execute(
+        '''
+        SELECT datetime, COUNT(*) FROM LightningData
+        WHERE l_type='G'
+        GROUP BY datetime
+        ORDER BY datetime ASC;
+        '''
+    )
+    results = cur.fetchall()
+    for row in results:
+        print(f"Date: {row[0]}, Count: {row[1]}")
+    return results
+
+def cloud_strike_count_by_date():
+    cur.execute(
+        '''
+        SELECT datetime, COUNT(*) FROM LightningData
+        WHERE l_type='C'
+        GROUP BY datetime
+        ORDER BY datetime ASC;
+        '''
+    )
+    results = cur.fetchall()
+    for row in results:
+        print(f"Date: {row[0]}, Count: {row[1]}")
+    return results
+
+def strike_count_by_date():
+    cur.execute(
+        '''
+        SELECT datetime, COUNT(*) FROM LightningData
+        GROUP BY datetime
+        ORDER BY datetime ASC;
+        '''
+    )
+    results = cur.fetchall()
+    for row in results:
+        print(f"Date: {row[0]}, Count: {row[1]}")
+    return results
+
+def lat_range_distribution(): # 7 bins
+    cur.execute(
+        '''
+        SELECT t.lat_class, COUNT(*) AS LightningData
+        FROM
+            (SELECT datetime, CASE
+                    WHEN latitude >= 1.55 THEN '>=1.55'
+                    WHEN latitude >= 1.45 THEN '>=1.45'
+                    WHEN latitude >= 1.35 THEN '>=1.35' 
+                    WHEN latitude >= 1.25 THEN '>=1.25'
+                    WHEN latitude >= 1.15 THEN '>=1.15'
+                    WHEN latitude >= 1.05 THEN '>=1.05'
+                    ELSE '>=0.95' END AS lat_class
+                FROM LightningData) t
+            GROUP BY lat_class;
+        '''
+    )
+    result = cur.fetchall()
+    for row in result:
+        print(f"Latitude Range: {row[0]}, Count: {row[1]}")
+    return result
+
+def long_range_distribution(): # 7 bins
+    cur.execute(
+        '''
+        SELECT t.long_class, COUNT(*) AS LightningData
+        FROM
+            (SELECT datetime, CASE
+                WHEN longitude >= 104.45 THEN '>=104.45'
+                WHEN longitude >= 104.25 THEN '>=104.25'
+                WHEN longitude >= 104.05 THEN '>=104.05' 
+                WHEN longitude >= 103.85 THEN '>=103.85'
+                WHEN longitude >= 103.65 THEN '>=103.65'
+                WHEN longitude >= 103.45 THEN '>=103.45'
+                ELSE '>=103.25' END AS long_class
+            FROM LightningData) t
+        GROUP BY long_class;
+      
+        '''
+    )
+    result = cur.fetchall()
+    for row in result:
+        print(f"Longitude Range: {row[0]}, Count: {row[1]}")
+    return result

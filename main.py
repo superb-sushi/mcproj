@@ -1,5 +1,5 @@
 import numpy as np
-from db import add_sample, add_asset, add_lightning_strike, reset_db, add_experiment_params_if_not_exist
+from simulationdb import add_sample, add_asset, add_lightning_strike, reset_db, add_experiment_params_if_not_exist
 
 building_types = {
     "B": "Barn",
