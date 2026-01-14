@@ -53,7 +53,7 @@ Ideation and Construction of simple model to simulate thunderstorm over a town.
   - represents the results collected from one sample. One sample involves putting the town (of size `town_size`) under a simulated thunderstorm the goes on for `max_days` days, where each day, the number of lightning strikes follows a probability distribution of Poisson(`exp_daily_lightning`)
   - Striking coordinates of lightning strikes follow a uniform distribution (town is assumed to be level)
   - Each sample consists of 2 instances of ALL asset types (total 8 different buildings), located in fixed and constant positions across ALL samples
-3. **Assets**(sid, atype, a_row, a_col, destroyed)
+3. **Assets**(sid, atype, a_row, a_col, importance, destroyed)
   - contains information about the various assets in each sample, including type, location, and if they were destroyed (NOT DAMAGED) at the end of each run.
 4. **LightningStrikes**(sid, day, num_of_strikes)
   - contains information on the number of lightning strikes in a certain day for a given sample
@@ -76,12 +76,12 @@ Analysed various metrics based on a **single, fixed** layout of the town. The me
 Performed API calls to Data Gov SG's lightning strikes database to:
 1. Observe if Lightning Strikes (Cloud-to-Ground) do indeed follow a Poisson Distribution for each day
   ![alt text](ground_strikes_distribution.png)
-  - The number of days where there was only 1 lightning strike is an outlier, and can be accounted for the fact that Singapore has small land mass, and thunderstorms with lightning that strike the land once may have other lightning strikes that strike offshore, and are hence not detected.
+  - **Results**: The number of days where there was only 1 lightning strike is an outlier, and can be accounted for the fact that Singapore has small land mass, and thunderstorms with lightning that strike the land once may have other lightning strikes that strike offshore, and are hence not detected.
 2. Observe if coordinates of Lightning Strikes do indeed follow a Uniform Distribution
-  - Latitude Distribution ![alt text](latitude_ranges.png)
-  - Longitude Distribution ![alt text](longitude_ranges.png)
+  - **Results**: Latitude Distribution ![alt text](latitude_ranges.png)
+  - **Results**: Longitude Distribution ![alt text](longitude_ranges.png)
 3. Obtain a proper, realistic lambda value (expected number of lightning strikes each day)
-  - `lambda` = 746 / 365 = **2**
+  - **Results:** `lambda` = 746 / 365 = **2**
 
 ### Limitations
 1. Data obtained from https://data.gov.sg/datasets?query=lightning+strikes&resultId=d_08238953fe0f6dd13f10714ebfbcb9f9 begin only from Jan 2025, where many lightning strikes are 'Cloud-to-Cloud' and not 'Cloud-to-Ground' (Only 10.6% of 746 strikes are 'Cloud-to-Ground').
