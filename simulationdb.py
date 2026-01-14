@@ -226,7 +226,8 @@ def lat_range_distribution(): # 7 bins
                     WHEN latitude >= 1.15 THEN '>=1.15'
                     WHEN latitude >= 1.05 THEN '>=1.05'
                     ELSE '>=0.95' END AS lat_class
-                FROM LightningData) t
+                FROM LightningData
+                WHERE l_type = 'G') t
             GROUP BY lat_class;
         '''
     )
@@ -248,7 +249,8 @@ def long_range_distribution(): # 7 bins
                 WHEN longitude >= 103.65 THEN '>=103.65'
                 WHEN longitude >= 103.45 THEN '>=103.45'
                 ELSE '>=103.25' END AS long_class
-            FROM LightningData) t
+            FROM LightningData
+            WHERE l_type = 'G') t
         GROUP BY long_class;
       
         '''

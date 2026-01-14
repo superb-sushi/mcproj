@@ -75,11 +75,11 @@ Analysed various metrics based on a **single, fixed** layout of the town. The me
 **First Iteration**
 Performed API calls to Data Gov SG's lightning strikes database to:
 1. Observe if Lightning Strikes (Cloud-to-Ground) do indeed follow a Poisson Distribution for each day
-  ![alt text](image.png)
+  ![alt text](ground_strikes_distribution.png)
   - The number of days where there was only 1 lightning strike is an outlier, and can be accounted for the fact that Singapore has small land mass, and thunderstorms with lightning that strike the land once may have other lightning strikes that strike offshore, and are hence not detected.
 2. Observe if coordinates of Lightning Strikes do indeed follow a Uniform Distribution
-  - Latitude Distribution ![alt text](image-1.png)
-  - Longitude Distribution ![alt text](image-2.png)
+  - Latitude Distribution ![alt text](latitude_ranges.png)
+  - Longitude Distribution ![alt text](longitude_ranges.png)
 3. Obtain a proper, realistic lambda value (expected number of lightning strikes each day)
   - `lambda` = 746 / 365 = **2**
 
