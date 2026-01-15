@@ -1,4 +1,4 @@
-# Monte Carlo Lightning Strike Model
+# Monte Carlo Lightning Strike Model (In Progress!)
 Estimating lightning strikes across a town, & optimising town layout to minimise damage to town assets.
 
 **Critical Town Assets**
@@ -37,7 +37,7 @@ To extract optimal layout of town for minimal damage given thunderstorm.
 
 # Project Aspects
 ### Simulation Building
-**First Iteration**
+**First Iteration**:
 Ideation and Construction of simple model to simulate thunderstorm over a town.
 - `Town` and `Asset` Classes created
 - `generate_lightning_strikes(town_size, expected_daily_lightning_stikes, no_of_days)` used to generate striking coordinates for each lightning strike for each day
@@ -45,8 +45,8 @@ Ideation and Construction of simple model to simulate thunderstorm over a town.
 - `run_simulations(num_simulations, town_size, expected_daily_lightning_stikes, no_of_days)` notes down the experiment parameters (`eid, town_size, expected_daily_lightning_strikes, no_of_days`), and performs `num_simulations` number of independent simulations based on the given parameters, saving all relevant data into a local database
 
 ### Data Collection
-**First Iteration**
-**Database Schema**
+**First Iteration**:
+Database Schema
 1. **ExperimentParams**(eid, town_size, exp_daily_lightning, max_days)
   - notes down the parameters of a given set of Samples (i.e. town size, expected number of lightning strikes per day, and the max days the lightning storm goes on for)
 2. **Samples**(id, eid, survived, total_days, survival_day, total_assets, num_of_destroyed)
@@ -64,7 +64,7 @@ With every run of `run_simluations()`,
 - m `LightningStrikes` tuples are added (depends on the number of lightning strikes generated each day + the total number of days for each sample run)
 
 ### Data Analysis
-**First Iteration**
+**First Iteration**:
 Analysed various metrics based on a **single, fixed** layout of the town. The metrics include:
 - Survival rate of the town across all samples
 - Probability distribution of destruction of the town across the days of the thunderstorm
@@ -72,7 +72,7 @@ Analysed various metrics based on a **single, fixed** layout of the town. The me
 - Probability Distribution of the loss of assets (weighed by summation of the `importance` of each asset) across the days of the thunderstorm
 
 ### Refining the Simulation
-**First Iteration**
+**First Iteration**:
 Performed API calls to Data Gov SG's lightning strikes database to:
 1. Observe if Lightning Strikes (Cloud-to-Ground) do indeed follow a Poisson Distribution for each day
   ![alt text](ground_strikes_distribution.png)
