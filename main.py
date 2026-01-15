@@ -139,4 +139,4 @@ def run_simulations(num_simulations, town_size, expected_daily_lightning_stikes,
         print(f"Simulation {i + 1} results recorded in database.")
 
 reset_db()
-run_simulations(1000, 5, 15, 30)
+run_simulations(1000, 5, 2, 365)
