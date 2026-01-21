@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-from simulationdb import ground_strike_count_by_date, strike_count_by_date, cloud_strike_count_by_date, lat_range_distribution, long_range_distribution
+import numpy as np
+from simulationdb import ground_strike_count_by_date, strike_count_by_date, cloud_strike_count_by_date, lat_range_distribution, long_range_distribution, get_strike_coords
 from scipy.stats import poisson
 import matplotlib.pyplot as plt
 
@@ -41,6 +42,28 @@ def display_long_range_distribution():
     plt.title("Distribution of Longitude Ranges of Lightning Strikes")
     plt.show()
 
-display_ground_strike_distribution()
-display_lat_range_distribution()
-display_long_range_distribution()
+def strike_distribution():
+    arr = get_strike_coords()
+    X = [float(item[0]) for item in arr]
+    Y = [float(item[1]) for item in arr]
+
+    # create 2D histogram
+    heatmap, xedges, yedges = np.histogram2d(X, Y, bins=50)
+
+    # plot
+    plt.imshow(
+        heatmap.T,                # transpose for correct orientation
+        origin='lower',
+        aspect='auto',
+        extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]]
+    )
+
+    plt.xlabel("Longitude")
+    plt.ylabel("Latitude")
+    plt.colorbar(label="Count")
+    plt.title("2D Heatmap of Singapore's lightning strike locations in 2025 Jan to 2026 Jan")
+    plt.show()
+# display_ground_strike_distribution()
+# display_lat_range_distribution()
+# display_long_range_distribution()
+strike_distribution()

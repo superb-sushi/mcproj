@@ -259,3 +259,14 @@ def long_range_distribution(): # 7 bins
     for row in result:
         print(f"Longitude Range: {row[0]}, Count: {row[1]}")
     return result
+
+def get_strike_coords():
+    cur.execute(
+        '''
+        SELECT longitude, latitude FROM LightningData
+        WHERE l_type = 'G';
+        '''
+    )
+    result = cur.fetchall()
+    coords = [(row[0], row[1]) for row in result]
+    return coords

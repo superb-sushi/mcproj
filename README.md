@@ -80,7 +80,9 @@ Performed API calls to Data Gov SG's lightning strikes database to:
 2. Observe if coordinates of Lightning Strikes do indeed follow a Uniform Distribution
   - **Results**: Latitude Distribution ![alt text](latitude_ranges.png)
   - **Results**: Longitude Distribution ![alt text](longitude_ranges.png)
-3. Obtain a proper, realistic lambda value (expected number of lightning strikes each day)
+3. Lightning Strike Heatmap of Singapore
+  - ![alt text](strike_heatmap.png)
+4. Obtain a proper, realistic lambda value (expected number of lightning strikes each day)
   - **Results:** `lambda` = 746 / 365 = **2**
 
 ### Limitations
