@@ -1,6 +1,12 @@
 # Monte Carlo Lightning Strike Model (In Progress!)
-Estimating lightning strikes across a town, & optimising town layout to minimise damage to town assets.
+## Rationale
+This project started as a way to explore how to make decisions when data is incomplete and events are unpredictable. Lightning strikes are rare and random, which makes them hard to plan for using historical data alone. Instead of relying on a small number of past observations, I wanted to see how simulation could help test different scenarios at scale.
 
+I used real lightning strike data from Data.gov.sg to ground the model in reality, then built a simple data pipeline to clean, store, and reuse the data for repeated Monte Carlo simulations. This made it possible to compare different asset layouts and see how often they survive across thousands of simulated runs, rather than a single outcome.
+
+The main goal of the project was to practise building reproducible data workflows (from raw data ingestion to analysis) and to understand how data pipelines can support better decision-making under uncertainty, especially in public-sector and infrastructure-related problems.
+___
+## Project Information
 **Critical Town Assets**
 - Barn (B)
 - Hospital (H)
